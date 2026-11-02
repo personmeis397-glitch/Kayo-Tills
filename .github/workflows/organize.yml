@@ -1,0 +1,64 @@
+name: Organize files
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  organize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move files into folders
+        run: |
+          mv_to() {
+            if [ -f "$1" ]; then
+              mkdir -p "$(dirname "$2")"
+              git mv "$1" "$2"
+            fi
+          }
+          B=app/src/main
+          mv_to AndroidManifest.xml $B/AndroidManifest.xml
+          mv_to AppConfig.kt $B/java/com/kayotills/app/AppConfig.kt
+          mv_to MainActivity.kt $B/java/com/kayotills/app/MainActivity.kt
+          mv_to AppConfigTest.kt app/src/test/java/com/kayotills/app/AppConfigTest.kt
+          mv_to index.html $B/assets/www/index.html
+          mv_to fonts.css $B/assets/www/fonts/fonts.css
+          mv_to strings.xml $B/res/values/strings.xml
+          mv_to themes.xml $B/res/values/themes.xml
+          mv_to data_extraction_rules.xml $B/res/xml/data_extraction_rules.xml
+          mv_to ic_launcher_foreground.xml $B/res/drawable/ic_launcher_foreground.xml
+          mv_to ic_launcher_monochrome.xml $B/res/drawable/ic_launcher_monochrome.xml
+          mv_to ic_launcher.xml $B/res/mipmap-anydpi-v26/ic_launcher.xml
+          mv_to ic_launcher_round.xml $B/res/mipmap-anydpi-v26/ic_launcher_round.xml
+          mv_to proguard-rules.pro app/proguard-rules.pro
+          mv_to libs.versions.toml gradle/libs.versions.toml
+          mv_to dependabot.yml .github/dependabot.yml
+          mv_to pull_request_template.md .github/pull_request_template.md
+          mv_to bug_report.md .github/ISSUE_TEMPLATE/bug_report.md
+          mv_to feature_request.md .github/ISSUE_TEMPLATE/feature_request.md
+          mv_to title.txt fastlane/metadata/android/en-US/title.txt
+          mv_to short_description.txt fastlane/metadata/android/en-US/short_description.txt
+          mv_to full_description.txt fastlane/metadata/android/en-US/full_description.txt
+          mv_to 1.txt fastlane/metadata/android/en-US/changelogs/1.txt
+          mv_to fetch-fonts.py scripts/fetch-fonts.py
+          if [ -f "colors.xml" ] && [ -f "colors (1).xml" ]; then
+            if grep -q icon_background colors.xml; then d="colors.xml"; n="colors (1).xml"; else d="colors (1).xml"; n="colors.xml"; fi
+            mkdir -p $B/res/values $B/res/values-night
+            git mv "$d" $B/res/values/colors.xml
+            git mv "$n" $B/res/values-night/colors.xml
+          fi
+          if [ -f "build.gradle.kts" ] && [ -f "build.gradle (1).kts" ]; then
+            if [ "$(wc -c < build.gradle.kts)" -gt "$(wc -c < 'build.gradle (1).kts')" ]; then
+              mkdir -p app
+              git mv build.gradle.kts app/build.gradle.kts
+              git mv "build.gradle (1).kts" build.gradle.kts
+            else
+              mkdir -p app
+              git mv "build.gradle (1).kts" app/build.gradle.kts
+            fi
+          fi
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Organize files into folders" || echo "Nothing to move"
+          git push
