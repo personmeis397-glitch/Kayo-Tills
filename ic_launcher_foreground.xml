@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- ivory keys -->
+    <path android:fillColor="#F6F5F0" android:pathData="M30,34h48v40h-48z" />
+    <!-- key dividers -->
+    <path android:fillColor="#9B988C" android:pathData="M41.6,34h0.8v40h-0.8z M53.6,34h0.8v40h-0.8z M65.6,34h0.8v40h-0.8z" />
+    <!-- black keys -->
+    <path android:fillColor="#26272E" android:pathData="M38.5,34h7v24h-7z M50.5,34h7v24h-7z M62.5,34h7v24h-7z" />
+    <!-- hue tips (red, amber, magenta) -->
+    <path android:fillColor="#B4232A" android:pathData="M38.5,54h7v4h-7z" />
+    <path android:fillColor="#E0872B" android:pathData="M50.5,54h7v4h-7z" />
+    <path android:fillColor="#C23A9E" android:pathData="M62.5,54h7v4h-7z" />
+</vector>
