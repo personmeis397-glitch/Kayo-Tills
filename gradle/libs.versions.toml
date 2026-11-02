@@ -3,7 +3,7 @@ agp = "8.7.3"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
 activityKtx = "1.9.3"
-webkit = "1.12.1"
+webkit = "1.18.0"
 splashscreen = "1.0.1"
 junit = "4.13.2"
 
